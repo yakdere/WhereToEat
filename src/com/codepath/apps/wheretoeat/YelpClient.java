@@ -20,11 +20,13 @@ import com.loopj.android.http.RequestParams;
  * 
  */
 public class YelpClient extends OAuthBaseClient {
-    public static final Class<? extends Api> REST_API_CLASS = YelpApi2.class; // Change this
-    public static final String REST_URL = "http://api.yelp.com"; 
+    public static final Class<? extends Api> REST_API_CLASS = YelpApi2.class; 
+    public static final String REST_URL = "http://api.yelp.com/v2"; 
     public static final String REST_CONSUMER_KEY = "WwVnz4cduQpvMt8QDd50MA";     
     public static final String REST_CONSUMER_SECRET = "9hqo5hZAy8Lw4cLalQpAwXF3sDw"; 
-    public static final String REST_CALLBACK_URL = "oauth://findmerestaurant"; // Change this (here and in manifest)
+    public static final String TOKEN = "_5hTM7yu_Dt9JnA5DMxP5UNJwV6XJxDQ";
+    public static final String TOKEN_SECRET = "e0y3wvIL2N-F-1D_ohqemGCcfgk";
+    public static final String REST_CALLBACK_URL = "oauth://cpyelp"; 
     
     public YelpClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
@@ -32,10 +34,12 @@ public class YelpClient extends OAuthBaseClient {
     
     public void search(String term, String location, AsyncHttpResponseHandler handler) {
     	// http://api.yelp.com/v2/search?term=food&location=San+Francisco
-    	String apiUrl = getApiUrl("/v2/search");
+    	String apiUrl = getApiUrl("search");
         RequestParams params = new RequestParams();
+       // params.put("category_filter", "restaurant");
         params.put("term", term);
         params.put("location", location);
+        params.put("sort", "2"); // "Highest Rated"
         client.get(apiUrl, params, handler);
     }
     
