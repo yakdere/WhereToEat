@@ -1,10 +1,13 @@
 package com.codepath.apps.wheretoeat;
 
 import org.scribe.builder.api.Api;
+import org.scribe.model.Token;
+
 import android.content.Context;
+import android.location.Location;
 
 import com.codepath.oauth.OAuthBaseClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 /*
@@ -24,21 +27,22 @@ public class YelpClient extends OAuthBaseClient {
     public static final String REST_URL = "http://api.yelp.com/v2"; 
     public static final String REST_CONSUMER_KEY = "WwVnz4cduQpvMt8QDd50MA";     
     public static final String REST_CONSUMER_SECRET = "9hqo5hZAy8Lw4cLalQpAwXF3sDw"; 
-    public static final String TOKEN = "_5hTM7yu_Dt9JnA5DMxP5UNJwV6XJxDQ";
-    public static final String TOKEN_SECRET = "e0y3wvIL2N-F-1D_ohqemGCcfgk";
+    public static final String TOKEN = "QV1fR6bpacFJdFBIwBaRYIndO5iy0h2I";
+    public static final String TOKEN_SECRET = "KdVBk5gzCC39UA0sRsaJesh6MxE";
     public static final String REST_CALLBACK_URL = "oauth://cpyelp"; 
     
     public YelpClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
+        this.client.setAccessToken(new Token(TOKEN, TOKEN_SECRET));
     }
     
-    public void search(String term, String location, AsyncHttpResponseHandler handler) {
+    public void search(String term, Location location, JsonHttpResponseHandler handler) {
     	// http://api.yelp.com/v2/search?term=food&location=San+Francisco
     	String apiUrl = getApiUrl("search");
         RequestParams params = new RequestParams();
        // params.put("category_filter", "restaurant");
         params.put("term", term);
-        params.put("location", location);
+        params.put("ll", location.getLatitude() + "," + location.getLongitude());
         params.put("sort", "2"); // "Highest Rated"
         client.get(apiUrl, params, handler);
     }

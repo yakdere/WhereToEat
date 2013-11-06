@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 @Table (name = "Restaurant")
 public class Restaurant extends Model implements Serializable {
@@ -20,7 +21,7 @@ public class Restaurant extends Model implements Serializable {
 	@Column(name="business_id")
 	private String id;
 	@Column(name="address1")
-	private String address1;
+	private String address;
 	@Column(name="address2")
 	private String address2;
 	@Column(name="address3")
@@ -44,13 +45,17 @@ public class Restaurant extends Model implements Serializable {
 	@Column(name="distance")
 	private long distance;
 	@Column(name="rating")
-	private double rating;
+	private int rating;
 	@Column(name="review_count")
 	private int review_count;
 	@Column(name="image_url")
 	private String image_url;
 	@Column(name="url")
 	private String yelp_url;
+	@Column (name= "rating_url")
+	private String rating_img_url;
+	 @Column(name="viewedAt")
+     private Long viewedAt;
 
 	public Restaurant() {
 		super();
@@ -61,8 +66,8 @@ public class Restaurant extends Model implements Serializable {
 	public String getYelpId() {
 		return id;
 	}
-	public String getAdress() {
-		return address1 + address2 + address3;
+	public String getAddress() {
+		return address;
 	}
 	public String getState() {
 		return state;
@@ -79,7 +84,7 @@ public class Restaurant extends Model implements Serializable {
 	public String getDisplayPhone() {
 		return display_phone;
 	}
-	public double getRating() {
+	public int getRating() {
 		return rating;
 	}
 	public double getLatitude() {
@@ -94,25 +99,42 @@ public class Restaurant extends Model implements Serializable {
 	public String getYelpUrl() {
 		return yelp_url;
 	}
-	
+	public String getRatingImageUrl() {
+		return rating_img_url;
+	}
+	public String getFullAddress() {
+        return address + ", " + city + ", " + state;
+	}
 	public static Restaurant fromJson(JSONObject jsonObject) {
 		Restaurant r = new Restaurant();
 		// Deserialize json into object fields
-		try {
-			r.id = jsonObject.getString("id");
-			r.name = jsonObject.getString("name");
-			r.display_phone = jsonObject.getString("display_phone");
-			r.image_url = jsonObject.getString("image_url");
-			r.address1 = jsonObject.getString("address1");
-			r.address2 = jsonObject.getString("address2");
-			r.address3 = jsonObject.getString("address3");
-			r.state = jsonObject.getString("state_code");
-			r.is_closed = jsonObject.getBoolean("is_closed");
-			r.distance = jsonObject.getLong("distance");
-			r.latitute = jsonObject.getDouble("latitude");
-			r.longitude = jsonObject.getDouble("longitude");
-			r.zip = jsonObject.getString("postal_code"); // could be "zip"
-			r.review_count = jsonObject.getInt("review_count");
+		 try {
+             JSONObject location = jsonObject.getJSONObject("location");
+             
+             r.id = jsonObject.getString("id");
+             r.name = jsonObject.getString("name");
+             r.display_phone = jsonObject.getString("display_phone");
+             r.image_url = jsonObject.getString("image_url");
+             
+             JSONArray jsonAddress = location.getJSONArray("address");
+             r.address = "";
+             for (int i = 0; i < jsonAddress.length(); i++) {
+                     r.address += jsonAddress.getString(i);
+                     if (i + 1 < jsonAddress.length()) {
+                             r.address += ", ";
+                     }
+             }
+             
+             r.state = location.getString("state_code");
+             r.city = location.getString("city");
+             r.is_closed = jsonObject.getBoolean("is_closed");
+             r.distance = jsonObject.getLong("distance");
+             //r.latitute = jsonObject.getDouble("latitude");
+             //r.longitude = jsonObject.getDouble("longitude");
+             r.zip = jsonObject.getJSONObject("location").getString("postal_code"); // could be "zip"
+             r.review_count = jsonObject.getInt("review_count");
+             r.rating = jsonObject.getInt("rating");
+             r.rating_img_url = jsonObject.getString("rating_img_url_large");
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return null;
@@ -140,4 +162,12 @@ public class Restaurant extends Model implements Serializable {
 		}
 		return restaurants;
 	}
+	public void setViewed() {
+		 this.viewedAt = System.currentTimeMillis();
+         this.save();
+		
+	}
+	 public static ArrayList<Restaurant> getHistory() {
+         return new Select().from(Restaurant.class).orderBy("viewedAt DESC").limit("30").execute();
+ }
 }

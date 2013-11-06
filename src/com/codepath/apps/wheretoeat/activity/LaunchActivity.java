@@ -1,21 +1,22 @@
 package com.codepath.apps.wheretoeat.activity;
 
+import com.codepath.apps.wheretoeat.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
-import com.codepath.apps.wheretoeat.R;
-
 public class LaunchActivity extends Activity {
-/**
- * LoginActivity renamed as LauncActivity
- */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_launch);
+		getActionBar().hide();
 	}
 
 	@Override
@@ -25,8 +26,23 @@ public class LaunchActivity extends Activity {
 		return true;
 	}
 	//button attached to Launch/Intro Screen
-	public void launch(View v) {
-		Intent i = new Intent(this, SearchActivity.class);
-		startActivity(i);
+	public void onLaunch(final View v) {
+		
+		int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
+        if(status!=ConnectionResult.SUCCESS){ // Google Play Services are not available
+            int requestCode = 10;
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, requestCode);
+            dialog.show();
+        } else {
+		Intent i = new Intent(LaunchActivity.this, SearchActivity.class);
+		startActivityForResult(i, 500);
+		overridePendingTransition(R.anim.in_right, R.anim.out_left);
+        }
+		
 	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		overridePendingTransition(R.anim.in_left, R.anim.out_right);
+	}
+
 }
