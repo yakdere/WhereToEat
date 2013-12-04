@@ -16,7 +16,18 @@ Features
 
 Technical Challenges
 ====================
-This project 
+This project includes these 3rd party libraries:
+
+* ActiveAndroid
+* Android-async-http
+* Scribe-java
+* Android-Universal-Image-Loader
+* ActionBarSherlock
+* Google-Play-Services froyo
+
+This project uses these API and endpoints:
+* Yelp API
+* Google Places Search API
 
 Screen Shots
 ==============
