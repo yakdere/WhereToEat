@@ -7,7 +7,8 @@ This repository contains the source code for the Where To Eat Android app.
 # Technical Challenges
 
 #Screen Shots
-![ScreenShot](http://s17.postimg.org/69aqvw2qn/Screenshot_2013_12_03_22_54_40.png)
-![ScreenShot](http://s24.postimg.org/p1053zkvp/Screenshot_2013_12_03_22_54_10.png)
+![ScreenShot](http://www.imageurlhost.com/images/zzb07mqo90y0lxofwbo3_ScreenShot.png)
 
-![ScreenShot](http://postimg.org/image/b0z6ur0xt/)
+![ScreenShot](http://www.imageurlhost.com/images/kq8bs9epaws5wj9ltu7x_History.png)
+
+![ScreenShot](http://www.imageurlhost.com/images/6505p7s9g8rjb5eflnrg.png)
