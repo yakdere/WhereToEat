@@ -13,6 +13,9 @@ Features
 * Search with keyword 
 * Search by using food category filter
 * Search without do any preferences
+* Ability to see recents places on the Recents Tab
+* Ability to clean history 
+* Ability to zoom in/out, show traffic, swith satellite, draw a line between 2 points on Map
 
 Technical Challenges
 ====================
