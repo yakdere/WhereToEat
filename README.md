@@ -1,12 +1,25 @@
 # Where To Eat?
 
-This repository contains the source code for the Where To Eat Android app. 
+This repository contains the source code for the WhereToEat Android app. WhereToEat is an application to find the nearest restaurant depends on user's preferences.
 
-# Features
+Features
+=========
+* Only one click to find nearest place to eat
+* If you don't like the founded place do a new search
+* Get navigation to the place
+* Only one click to call for reservation
+* Read Yelp Reviews for the founded place
+* Yelp Rating, overall avarage rating, Google Places API supported price range and marked location on Google Map
+* Search with keyword 
+* Search by using food category filter
+* Search without do any preferences
 
-# Technical Challenges
+Technical Challenges
+====================
+This project 
 
-#Screen Shots
+Screen Shots
+==============
 ![ScreenShot](http://www.imageurlhost.com/images/zzb07mqo90y0lxofwbo3_ScreenShot.png)
 
 ![ScreenShot](http://www.imageurlhost.com/images/kq8bs9epaws5wj9ltu7x_History.png)
